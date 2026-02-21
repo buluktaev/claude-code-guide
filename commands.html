@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Команды — Claude Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="breadcrumb">
+        <div class="container">
+            <a href="index.html" class="back-link">← Главная</a>
+            <span class="current">Команды</span>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <span class="page-icon">⌨️</span>
+            <h1>Справочник команд</h1>
+            <p class="page-subtitle">Быстрый доступ к основным CLI командам, флагам и shortcuts</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>CLI Основные команды</h2>
+            <pre><code>claude                      # Interactive сессия
+claude "query"             # Start с prompt
+claude -p "query"          # Print mode (exit после)
+claude -c                  # Continue последнюю
+claude --resume name       # Resume сессию
+claude --from-pr 123       # Resume PR session
+claude update              # Обновить Claude</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>MCP команды</h2>
+            <pre><code>claude mcp add --transport http name url
+claude mcp list
+claude mcp get name
+claude mcp remove name</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>CLI Флаги</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Флаг</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>--model sonnet</code></td>
+                        <td>Выбрать модель (sonnet, opus, haiku)</td>
+                    </tr>
+                    <tr>
+                        <td><code>--permission-mode plan</code></td>
+                        <td>Начать в plan mode</td>
+                    </tr>
+                    <tr>
+                        <td><code>--add-dir ../other</code></td>
+                        <td>Добавить дополнительные директории</td>
+                    </tr>
+                    <tr>
+                        <td><code>--chrome</code></td>
+                        <td>Включить Chrome</td>
+                    </tr>
+                    <tr>
+                        <td><code>--debug "api,hooks"</code></td>
+                        <td>Debug logging</td>
+                    </tr>
+                    <tr>
+                        <td><code>--verbose</code></td>
+                        <td>Verbose output</td>
+                    </tr>
+                    <tr>
+                        <td><code>--max-turns 5</code></td>
+                        <td>Ограничить agentic turns</td>
+                    </tr>
+                    <tr>
+                        <td><code>--tools "Read,Edit,Bash"</code></td>
+                        <td>Только эти tools</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section">
+            <h2>Интерактивные команды</h2>
+            <div class="two-column">
+                <div class="highlight-box">
+                    <h3>Команды в сессии</h3>
+                    <pre><code>/agents    # Manage subagents
+/mcp       # MCP servers
+/cost      # View costs
+/context   # Context usage
+/resume    # Resume session
+/rename    # Rename session
+/compact   # Compact context
+/debug     # Debug info</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>Keyboard Shortcuts</h3>
+                    <pre><code>Shift+Tab     # Permission modes
+Ctrl+O        # Toggle verbose
+Ctrl+G        # Open plan
+↑/↓           # Navigate
+Enter         # Select
+P             # Preview
+R             # Rename
+/             # Search</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Git команды через Claude</h2>
+            <pre><code># Коммиты
+> Create a commit with these changes
+> Commit with message "Fix: bug in auth"
+
+# Pull Requests
+> Create a PR for these changes
+> Summarize changes and create PR
+
+# Branch management
+git worktree add ../feature -b feature-name
+cd ../feature && claude
+
+# Просмотр
+> Show git diff
+> What changed in this file?</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>Быстрые примеры</h2>
+
+            <div class="highlight-box">
+                <h3>Начать новую сессию</h3>
+                <pre><code>claude "Help me implement OAuth authentication"</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Продолжить предыдущую</h3>
+                <pre><code>claude -c</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Запустить с specific моделью</h3>
+                <pre><code>claude --model haiku "Quick code review"</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Plan mode для большой задачи</h3>
+                <pre><code>claude --permission-mode plan "Refactor auth system"</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+            </div>
+        </section>
+
+        <section class="docs-link">
+            <h3>📚 Официальная документация</h3>
+            <a href="https://code.claude.com/docs/en/cli-reference.md" target="_blank" class="doc-button">
+                CLI Reference →
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-nav">
+                <a href="teams.html">← Agent Teams</a>
+                <a href="index.html">🏠 Главная</a>
+                <a href="tmux.html">tmux →</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code — Справочник</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        /* Index-specific styles */
+        .index-header {
+            padding: 48px 0 32px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 32px;
+        }
+
+        .index-header h1 {
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .index-header .subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Cards grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 48px;
+        }
+
+        .topic-card {
+            background: var(--bg-page);
+            padding: 16px 20px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: background 0.15s ease;
+        }
+
+        .topic-card:hover {
+            background: var(--bg-hover);
+            text-decoration: none;
+        }
+
+        .card-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+            width: 40px;
+            text-align: center;
+        }
+
+        .card-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .card-arrow {
+            color: var(--text-tertiary);
+            font-size: 14px;
+            flex-shrink: 0;
+            transition: color 0.15s ease, transform 0.15s ease;
+        }
+
+        .topic-card:hover .card-arrow {
+            color: var(--text-link);
+            transform: translateX(2px);
+        }
+
+        .topic-card:hover .card-title {
+            color: var(--text-link);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="index-header">
+            <h1>Claude Code</h1>
+            <p class="subtitle">Справочник по Skills, Субагентам, Инструментам и командам</p>
+        </header>
+
+        <main>
+            <div class="cards-grid">
+                <a href="skills.html" class="topic-card">
+                    <span class="card-icon">🎯</span>
+                    <div class="card-body">
+                        <div class="card-title">Skills</div>
+                        <p class="card-description">Переиспользуемые наборы инструкций для расширения возможностей Claude</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="subagents.html" class="topic-card">
+                    <span class="card-icon">🤖</span>
+                    <div class="card-body">
+                        <div class="card-title">Субагенты</div>
+                        <p class="card-description">Специализированные AI помощники с собственным контекстом и правами доступа</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="tools.html" class="topic-card">
+                    <span class="card-icon">🛠</span>
+                    <div class="card-body">
+                        <div class="card-title">Инструменты</div>
+                        <p class="card-description">Read, Write, Edit, Grep, Glob, Bash и управление доступом</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="git.html" class="topic-card">
+                    <span class="card-icon">🔀</span>
+                    <div class="card-body">
+                        <div class="card-title">Git</div>
+                        <p class="card-description">Автоматизация коммитов, PR, branch management и worktrees</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="mcp.html" class="topic-card">
+                    <span class="card-icon">🔌</span>
+                    <div class="card-body">
+                        <div class="card-title">MCP Серверы</div>
+                        <p class="card-description">Model Context Protocol — интеграция с внешними API и данными</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="teams.html" class="topic-card">
+                    <span class="card-icon">👥</span>
+                    <div class="card-body">
+                        <div class="card-title">Agent Teams</div>
+                        <p class="card-description">Параллельная работа нескольких Claude экземпляров с общей task list</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="commands.html" class="topic-card">
+                    <span class="card-icon">⌨️</span>
+                    <div class="card-body">
+                        <div class="card-title">Команды</div>
+                        <p class="card-description">Справочник CLI команд, флагов и keyboard shortcuts</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="tmux.html" class="topic-card">
+                    <span class="card-icon">🖥️</span>
+                    <div class="card-body">
+                        <div class="card-title">tmux</div>
+                        <p class="card-description">Terminal multiplexer для управления несколькими Claude сессиями</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="statusline.html" class="topic-card">
+                    <span class="card-icon">📊</span>
+                    <div class="card-body">
+                        <div class="card-title">Status Line</div>
+                        <p class="card-description">Настройка статусной строки терминала и кастомизация компонентов</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+
+                <a href="memory.html" class="topic-card">
+                    <span class="card-icon">🧠</span>
+                    <div class="card-body">
+                        <div class="card-title">CLAUDE.md</div>
+                        <p class="card-description">Иерархия памяти, best practices и настройка инструкций для Claude</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="https://code.claude.com/docs" target="_blank">Документация</a>
+                    <a href="https://github.com/anthropics/claude-code" target="_blank">GitHub</a>
+                    <a href="https://t.me/vibecod3rs" target="_blank">Вайбкодеры</a>
+                    <a href="https://context.lat" target="_blank">context.lat</a>
+                </div>
+                <div class="footer-bottom">
+                    <p>Справочник Claude Code v1.1 — Февраль 2026</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

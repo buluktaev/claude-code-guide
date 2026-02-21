@@ -1,0 +1,1009 @@
+/* ==============================================
+   Claude Code Guide — Design System
+   Matches code.claude.com/docs (Mintlify-based)
+   ============================================== */
+
+:root {
+    /* Background */
+    --bg-page: #ffffff;
+    --bg-sidebar: #f8fafc;
+    --bg-secondary: #f8fafc;
+    --bg-code-inline: #f1f5f9;
+    --bg-code-block: #0d1117;
+    --bg-table-header: #f8fafc;
+    --bg-callout-info: #eff6ff;
+    --bg-callout-tip: #f0fdf4;
+    --bg-callout-warning: #fffbeb;
+    --bg-callout-danger: #fef2f2;
+    --bg-hover: #f8fafc;
+
+    /* Text */
+    --text-primary: #0f172a;
+    --text-body: #334155;
+    --text-secondary: #64748b;
+    --text-tertiary: #94a3b8;
+    --text-code-inline: #0f172a;
+    --text-code-block: #c9d1d9;
+    --text-link: #2563eb;
+    --text-link-hover: #1d4ed8;
+
+    /* Borders */
+    --border: #e2e8f0;
+    --border-light: #f1f5f9;
+
+    /* Accent */
+    --accent-blue: #3b82f6;
+    --accent-green: #22c55e;
+    --accent-amber: #f59e0b;
+    --accent-red: #ef4444;
+    --accent-purple: #8b5cf6;
+
+    /* Callout borders */
+    --callout-info-border: #3b82f6;
+    --callout-tip-border: #22c55e;
+    --callout-warning-border: #f59e0b;
+    --callout-danger-border: #ef4444;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+    /* Radius */
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    /* Sizing */
+    --content-width: 768px;
+    --page-padding: 24px;
+}
+
+/* ==============================================
+   Reset & Base
+   ============================================== */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.625;
+    color: var(--text-body);
+    background: var(--bg-page);
+    min-height: 100vh;
+}
+
+a {
+    color: var(--text-link);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+a:hover {
+    color: var(--text-link-hover);
+    text-decoration: underline;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* ==============================================
+   Layout
+   ============================================== */
+
+.container {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 var(--page-padding);
+}
+
+.content {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 var(--page-padding) 80px;
+}
+
+/* ==============================================
+   Breadcrumb / Top Nav
+   ============================================== */
+
+.breadcrumb {
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.breadcrumb .container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.breadcrumb a,
+.back-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.15s ease;
+    padding: 0;
+    display: inline-block;
+}
+
+.breadcrumb a:hover,
+.back-link:hover {
+    color: var(--text-link);
+    text-decoration: none;
+}
+
+.breadcrumb .current {
+    color: var(--text-tertiary);
+    font-size: 14px;
+}
+
+/* ==============================================
+   Page Header
+   ============================================== */
+
+.page-header {
+    padding: 48px 0 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+}
+
+.page-header .container {
+    max-width: var(--content-width);
+}
+
+.page-icon {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.page-header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    line-height: 1.2;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    background-clip: unset;
+}
+
+.page-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.625;
+    margin: 0;
+}
+
+/* Header for interaction-design.html (uses different structure) */
+header {
+    padding: 48px 0 32px;
+    text-align: left;
+}
+
+header .icon {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 16px;
+}
+
+header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    line-height: 1.2;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+header .subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+}
+
+/* ==============================================
+   Typography
+   ============================================== */
+
+h1 {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin-bottom: 16px;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    margin-top: 48px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.3;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+h2:first-child,
+.content-section:first-child h2 {
+    margin-top: 0;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 32px 0 12px;
+    line-height: 1.4;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 24px 0 8px;
+    line-height: 1.5;
+}
+
+p {
+    color: var(--text-body);
+    margin-bottom: 16px;
+    line-height: 1.625;
+}
+
+strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* ==============================================
+   Content Sections
+   ============================================== */
+
+.content-section {
+    margin-bottom: 48px;
+}
+
+.content section {
+    margin-bottom: 48px;
+}
+
+.subsection {
+    margin: 24px 0;
+}
+
+/* ==============================================
+   Code — Inline
+   ============================================== */
+
+code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 13.6px;
+    background: var(--bg-code-inline);
+    color: var(--text-code-inline);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+    border: none;
+    word-break: break-word;
+}
+
+/* ==============================================
+   Code — Blocks (Dark Theme)
+   ============================================== */
+
+pre {
+    background: var(--bg-code-block);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    overflow-x: auto;
+    margin: 16px 0;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+pre code {
+    background: none;
+    color: var(--text-code-block);
+    padding: 0;
+    font-size: 13.6px;
+    line-height: 1.7;
+    font-weight: 400;
+    border: none;
+    word-break: normal;
+}
+
+/* Code block syntax hints */
+pre code .comment { color: #8b949e; }
+pre code .keyword { color: #ff7b72; }
+pre code .string { color: #a5d6ff; }
+pre code .function { color: #d2a8ff; }
+pre code .number { color: #79c0ff; }
+
+/* ==============================================
+   Copy Button (Code Blocks)
+   ============================================== */
+
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.15s ease;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0;
+    line-height: 0;
+}
+
+.copy-btn::before {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff80' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='9' y='9' width='13' height='13' rx='2' ry='2'%3E%3C/rect%3E%3Cpath d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'%3E%3C/path%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+pre:hover .copy-btn {
+    opacity: 1;
+}
+
+.copy-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.copy-btn.copied::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+.copy-btn.copied {
+    opacity: 1;
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+/* ==============================================
+   Tables
+   ============================================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+thead {
+    background: var(--bg-table-header);
+}
+
+th {
+    padding: 10px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-body);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr {
+    transition: background 0.15s ease;
+}
+
+tbody tr:hover {
+    background: var(--bg-hover);
+}
+
+/* ==============================================
+   Lists
+   ============================================== */
+
+ul, ol {
+    margin: 12px 0;
+    padding-left: 24px;
+}
+
+li {
+    margin: 6px 0;
+    color: var(--text-body);
+    line-height: 1.625;
+}
+
+li strong {
+    color: var(--text-primary);
+}
+
+/* Check list / X list */
+.check-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.check-list li {
+    padding-left: 28px;
+    position: relative;
+    margin: 10px 0;
+}
+
+.check-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent-green);
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.x-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.x-list li {
+    padding-left: 28px;
+    position: relative;
+    margin: 10px 0;
+}
+
+.x-list li::before {
+    content: '✕';
+    position: absolute;
+    left: 0;
+    color: var(--accent-red);
+    font-weight: 700;
+    font-size: 14px;
+}
+
+/* ==============================================
+   Callout / Highlight Boxes
+   ============================================== */
+
+.highlight-box {
+    background: var(--bg-callout-info);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-left: 3px solid var(--callout-info-border);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin: 16px 0;
+}
+
+.highlight-box h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.highlight-box p {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.highlight-box pre {
+    margin: 8px 0;
+}
+
+.highlight-box ul {
+    margin: 8px 0;
+}
+
+.result-preview {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 13px;
+    color: var(--text-secondary);
+    background: var(--bg-page);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    margin-top: 8px;
+    margin-bottom: 0;
+}
+
+/* Alert variations */
+.alert {
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    margin: 16px 0;
+    border-left: 3px solid;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.alert-info {
+    background: var(--bg-callout-info);
+    border-left-color: var(--callout-info-border);
+    color: #1e40af;
+}
+
+.alert-warning {
+    background: var(--bg-callout-warning);
+    border-left-color: var(--callout-warning-border);
+    color: #92400e;
+}
+
+.alert-tip {
+    background: var(--bg-callout-tip);
+    border-left-color: var(--callout-tip-border);
+    color: #166534;
+}
+
+.alert-danger {
+    background: var(--bg-callout-danger);
+    border-left-color: var(--callout-danger-border);
+    color: #991b1b;
+}
+
+/* Error card */
+.error-card {
+    background: var(--bg-page);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-red);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin: 16px 0;
+}
+
+.error-card h4 {
+    margin-top: 0;
+    color: var(--accent-red);
+}
+
+/* ==============================================
+   Practice Cards
+   ============================================== */
+
+.practice-card {
+    background: var(--bg-page);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-blue);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin: 12px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.practice-card h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+}
+
+.practice-card .practice-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.practice-content ul {
+    margin: 8px 0;
+}
+
+/* ==============================================
+   Antipattern Items
+   ============================================== */
+
+.antipatterns {
+    margin: 16px 0;
+}
+
+.antipattern-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--bg-callout-danger);
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    border-left: 3px solid var(--accent-red);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    margin: 8px 0;
+}
+
+.antipattern-item .emoji,
+.antipattern-item .antipattern-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.antipattern-item strong {
+    display: block;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+    font-size: 14px;
+}
+
+.antipattern-item p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-body);
+}
+
+/* ==============================================
+   Tool Cards Grid
+   ============================================== */
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.tool-card {
+    background: var(--bg-page);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tool-card:hover {
+    border-color: var(--accent-blue);
+    box-shadow: var(--shadow-sm);
+}
+
+.tool-card h3 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.tool-card p {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.tool-card code {
+    display: block;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* ==============================================
+   Two Column Layout
+   ============================================== */
+
+.two-column {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+}
+
+.do-box, .dont-box {
+    background: var(--bg-page);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+}
+
+.do-box {
+    border-left: 3px solid var(--accent-green);
+}
+
+.dont-box {
+    border-left: 3px solid var(--accent-red);
+}
+
+.do-box h3, .dont-box h3 {
+    margin-top: 0;
+}
+
+/* ==============================================
+   Code Example (inline code blocks)
+   ============================================== */
+
+.code-block {
+    margin: 12px 0;
+}
+
+.code-example {
+    background: var(--bg-code-block);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    margin: 12px 0;
+}
+
+.code-example code {
+    display: block;
+    line-height: 1.7;
+    background: none;
+    color: var(--text-code-block);
+    font-size: 13.6px;
+    padding: 0;
+}
+
+/* ==============================================
+   Docs Link / CTA
+   ============================================== */
+
+.docs-link {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    text-align: center;
+    margin: 32px 0;
+}
+
+.docs-link h3 {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+}
+
+.doc-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--text-primary);
+    color: white;
+    padding: 8px 20px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: background 0.15s ease;
+}
+
+.doc-button:hover {
+    background: #334155;
+    color: white;
+    text-decoration: none;
+}
+
+/* ==============================================
+   Resources List
+   ============================================== */
+
+.resources-list {
+    list-style: none;
+    padding: 0;
+}
+
+.resources-list li {
+    margin: 8px 0;
+}
+
+.resources-list a {
+    color: var(--text-link);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.resources-list a:hover {
+    color: var(--text-link-hover);
+}
+
+/* ==============================================
+   Footer
+   ============================================== */
+
+footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 0;
+    margin-top: 64px;
+}
+
+.footer-nav {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 var(--page-padding);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.footer-nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: color 0.15s ease;
+}
+
+.footer-nav a:hover {
+    color: var(--text-link);
+    text-decoration: none;
+}
+
+/* Footer content (used in index.html) */
+.footer-content {
+    text-align: center;
+}
+
+.footer-content h3 {
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.footer-links a:hover {
+    color: var(--text-link);
+}
+
+.footer-bottom p {
+    color: var(--text-tertiary);
+    font-size: 13px;
+    margin: 0;
+}
+
+/* ==============================================
+   Patterns Table (Interaction Design)
+   ============================================== */
+
+.patterns-table {
+    margin: 16px 0;
+}
+
+.patterns-table th:first-child {
+    width: 25%;
+}
+
+/* ==============================================
+   Animations (subtle & purposeful)
+   ============================================== */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.animate-on-scroll.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==============================================
+   Accessibility
+   ============================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .animate-on-scroll {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ==============================================
+   Responsive
+   ============================================== */
+
+@media (max-width: 768px) {
+    :root {
+        --page-padding: 16px;
+    }
+
+    h1, .page-header h1, header h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    pre {
+        font-size: 13px;
+        padding: 12px;
+        border-radius: var(--radius-sm);
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    th, td {
+        padding: 8px 12px;
+    }
+
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+
+    .tools-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-links {
+        gap: 16px;
+    }
+
+    .page-icon, header .icon {
+        font-size: 32px;
+    }
+}

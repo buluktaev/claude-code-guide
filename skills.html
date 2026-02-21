@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills — Claude Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="breadcrumb">
+        <div class="container">
+            <a href="index.html" class="back-link">← Главная</a>
+            <span class="current">Skills</span>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <span class="page-icon">🎯</span>
+            <h1>Skills (Умения)</h1>
+            <p class="page-subtitle">Переиспользуемые наборы инструкций, которые расширяют возможности Claude</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>Что такое Skills?</h2>
+            <p>Skills (умения) — это переиспользуемые наборы инструкций и контекста, которые расширяют возможности Claude. Они работают как пользовательские команды, которые можно вызывать вручную (<code>/skill-name</code>) или автоматически, когда Claude считает их релевантными.</p>
+
+            <div class="highlight-box">
+                <h3>Skills помогают:</h3>
+                <ul class="check-list">
+                    <li>Добавить специализированное знание (конвенции кода, паттерны, домены)</li>
+                    <li>Создать переиспользуемые рабочие процессы</li>
+                    <li>Организовать большие наборы инструкций в отдельные файлы</li>
+                    <li>Делиться конфигурацией между проектами</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Создание первого skill</h2>
+
+            <h3>Структура файла</h3>
+            <p>Путь: <code>~/.claude/skills/explain-code/SKILL.md</code></p>
+
+            <pre><code>---
+name: explain-code
+description: Объясняет код с помощью визуальных диаграмм и аналогий. Используй, когда объясняешь, как работает код, или когда пользователь спрашивает "как это работает?"
+argument-hint: [file-path]
+---
+
+При объяснении кода всегда включай:
+
+1. **Аналогия из жизни**: сравни код с чем-то из повседневной жизни
+2. **ASCII диаграмма**: покажи flow, структуру или отношения между компонентами
+3. **Пошаговое объяснение**: объясни, что происходит на каждом шаге
+4. **Важное предупреждение**: какая ошибка часто встречается?
+
+Объяснения должны быть разговорными. Для сложных концепций используй несколько аналогий.</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <h3>Вызов skill</h3>
+            <pre><code># Автоматический вызов (Claude решит использовать)
+> Как работает этот код?
+
+# Явный вызов
+> /explain-code src/auth/login.ts
+
+# С аргументами
+> /explain-code src/components/Header.jsx</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>Где хранятся skills</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Локация</th>
+                        <th>Путь</th>
+                        <th>Доступность</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Personal</td>
+                        <td><code>~/.claude/skills/&lt;skill-name&gt;/SKILL.md</code></td>
+                        <td>Все проекты</td>
+                    </tr>
+                    <tr>
+                        <td>Project</td>
+                        <td><code>.claude/skills/&lt;skill-name&gt;/SKILL.md</code></td>
+                        <td>Только этот проект</td>
+                    </tr>
+                    <tr>
+                        <td>Enterprise</td>
+                        <td>Managed settings</td>
+                        <td>Вся организация</td>
+                    </tr>
+                    <tr>
+                        <td>Plugin</td>
+                        <td><code>&lt;plugin&gt;/skills/&lt;skill-name&gt;/SKILL.md</code></td>
+                        <td>Где плагин включен</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Приоритет:</strong> Enterprise > Personal > Project</p>
+        </section>
+
+        <section class="content-section">
+            <h2>Параметры frontmatter</h2>
+            <pre><code>---
+name: my-skill                          # Обязательно (lowercase, hyphens)
+description: Что умеет делать skill    # Рекомендуется
+argument-hint: [arg1] [arg2]           # Подсказка для автодополнения
+disable-model-invocation: true         # true = только ручной вызов
+user-invocable: false                  # false = только автоматический вызов
+allowed-tools: Read, Grep, Glob        # Какие tools доступны
+model: sonnet                          # Какую модель использовать
+context: fork                          # fork = выполнить в субагенте
+agent: Explore                         # Какой тип субагента
+---</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>Динамический контекст</h2>
+            <p>Используй <code>!`command`</code> для выполнения команд перед тем, как skill отправляется Claude:</p>
+
+            <pre><code>---
+name: pr-summary
+description: Резюмирует изменения в PR
+context: fork
+agent: Explore
+---
+
+## Контекст PR
+- PR diff: !`gh pr diff`
+- PR comments: !`gh pr view --comments`
+- Changed files: !`gh pr diff --name-only`
+
+## Ваша задача
+Кратко опишите этот PR...</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>Аргументы и подстановки</h2>
+            <pre><code>---
+name: migrate-component
+description: Мигрирует компонент из одного фреймворка в другой
+---
+
+Мигрируй компонент $0 с $1 на $2.
+Сохраняй все существующее поведение и тесты.</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <p><strong>Доступные переменные:</strong></p>
+            <ul>
+                <li><code>$ARGUMENTS</code> - все аргументы</li>
+                <li><code>$0</code>, <code>$1</code>, <code>$2</code> - отдельные аргументы по индексу</li>
+                <li><code>${CLAUDE_SESSION_ID}</code> - ID текущей сессии</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Best Practices</h2>
+
+            <div class="two-column">
+                <div class="do-box">
+                    <h3>✅ Делай</h3>
+                    <ul class="check-list">
+                        <li>Пиши описание, которое Claude поймет (используй keywords)</li>
+                        <li>Ограничь доступ к инструментам только необходимыми</li>
+                        <li>Сохраняй SKILL.md под 500 строк</li>
+                        <li>Используй <code>disable-model-invocation: true</code> для операций с побочными эффектами</li>
+                        <li>Проверяй skills в git для командной работы</li>
+                    </ul>
+                </div>
+
+                <div class="dont-box">
+                    <h3>❌ Избегай</h3>
+                    <ul class="x-list">
+                        <li>Слишком общих описаний ("поможет с кодом")</li>
+                        <li>Слишком широких прав доступа</li>
+                        <li>Смешивания глобальных инструкций с actionable tasks</li>
+                        <li>Skills без контекста о когда их использовать</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Типичные ошибки</h2>
+
+            <div class="error-card">
+                <h4>Ошибка 1: Skill не вызывается автоматически</h4>
+                <p><strong>Решение:</strong> Проверь <code>description</code> - включены ли keywords которые пользователь использует. Используй <code>/explain-code</code> для явного вызова.</p>
+            </div>
+
+            <div class="error-card">
+                <h4>Ошибка 2: Skill вызывается слишком часто</h4>
+                <p><strong>Решение:</strong> Сделай <code>description</code> более специфичным. Добавь <code>disable-model-invocation: true</code> если нужен только ручной вызов.</p>
+            </div>
+
+            <div class="error-card">
+                <h4>Ошибка 3: Claude не видит все skills</h4>
+                <p><strong>Решение:</strong> Слишком много skills занимают контекст (бюджет 2% от окна контекста). Установи <code>SLASH_COMMAND_TOOL_CHAR_BUDGET</code> переменную окружения.</p>
+            </div>
+        </section>
+
+        <section class="docs-link">
+            <h3>📚 Официальная документация</h3>
+            <a href="https://code.claude.com/docs/en/skills.md" target="_blank" class="doc-button">
+                Skills Guide →
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-nav">
+                <a href="index.html">← Главная</a>
+                <a href="subagents.html">Субагенты →</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

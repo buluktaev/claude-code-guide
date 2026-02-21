@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Teams — Claude Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="breadcrumb">
+        <div class="container">
+            <a href="index.html" class="back-link">← Главная</a>
+            <span class="current">Agent Teams</span>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <span class="page-icon">👥</span>
+            <h1>Agent Teams</h1>
+            <p class="page-subtitle">Параллельная работа нескольких Claude экземпляров с общей task list</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="alert alert-warning" style="margin-bottom: 32px;">
+            <strong>⚠️ Экспериментальная фича!</strong><br>
+            Требует включения: <code>CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</code>
+        </div>
+
+        <section class="content-section">
+            <h2>Что такое Agent Teams?</h2>
+            <p>Agent Teams позволяют нескольким Claude экземплярам работать параллельно с общей task list и прямой коммуникацией между собой.</p>
+
+            <div class="highlight-box">
+                <h3>Agent Teams подходят для:</h3>
+                <ul class="check-list">
+                    <li>Параллельного code review (security, performance, tests)</li>
+                    <li>Research с конкурирующими гипотезами</li>
+                    <li>Независимых features/modules</li>
+                    <li>Cross-layer coordination</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Включение Agent Teams</h2>
+            <pre><code>// settings.json
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  }
+}
+
+// Или через environment
+export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+claude</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>Создание team</h2>
+            <pre><code>> Create an agent team to review this PR:
+> - Security: focus on vulnerabilities
+> - Performance: check for bottlenecks
+> - Testing: validate test coverage
+> Have them review and discuss findings</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <p>Claude:</p>
+            <ol>
+                <li>Создаст team с lead и teammates</li>
+                <li>Спавнит независимые сессии</li>
+                <li>Распределит work через shared task list</li>
+                <li>Синтезирует результаты</li>
+            </ol>
+        </section>
+
+        <section class="content-section">
+            <h2>Управление командами</h2>
+            <pre><code># Создать team с количеством
+> Spawn 3 teammates to refactor modules
+
+# Назначить роль
+> Spawn an architect teammate
+
+# Требовать план
+> Require plan approval before changes
+
+# Переключение между teammates
+Shift+Up/Down
+
+# Завершение
+> Clean up the team</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>Use cases</h2>
+
+            <div class="highlight-box">
+                <h3>Параллельный Code Review</h3>
+                <pre><code>> Review PR from 3 perspectives:
+> - Security: auth, validation, secrets
+> - Performance: queries, loops, caching
+> - Testing: coverage, edge cases</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Исследование гипотез</h3>
+                <pre><code>> App exits after one message
+> Spawn 5 teammates to investigate
+> Different root causes
+> Debate to disprove theories</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Параллельная разработка</h3>
+                <pre><code>> Build 3 API endpoints
+> Spawn teammate for each:
+> - User authentication
+> - Data retrieval
+> - Update operations</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Subagents vs Agent Teams</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Параметр</th>
+                        <th>Subagents</th>
+                        <th>Agent Teams</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Context</td>
+                        <td>Свой контекст, results возвращаются</td>
+                        <td>Свой контекст, полная независимость</td>
+                    </tr>
+                    <tr>
+                        <td>Communication</td>
+                        <td>Только report back</td>
+                        <td>Direct messaging между teammates</td>
+                    </tr>
+                    <tr>
+                        <td>Coordination</td>
+                        <td>Main agent управляет</td>
+                        <td>Shared task list, self-coordination</td>
+                    </tr>
+                    <tr>
+                        <td>Best for</td>
+                        <td>Focused tasks с clear результатом</td>
+                        <td>Complex work требующий discussion</td>
+                    </tr>
+                    <tr>
+                        <td>Token cost</td>
+                        <td>Ниже</td>
+                        <td>Выше (несколько instances)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="docs-link">
+            <h3>📚 Официальная документация</h3>
+            <a href="https://code.claude.com/docs/en/agent-teams.md" target="_blank" class="doc-button">
+                Agent Teams Guide →
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-nav">
+                <a href="mcp.html">← MCP Серверы</a>
+                <a href="commands.html">Команды →</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

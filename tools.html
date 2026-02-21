@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Инструменты — Claude Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="breadcrumb">
+        <div class="container">
+            <a href="index.html" class="back-link">← Главная</a>
+            <span class="current">Инструменты</span>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <span class="page-icon">🛠</span>
+            <h1>Основные инструменты</h1>
+            <p class="page-subtitle">Встроенные tools для работы с файлами, поиска и выполнения команд</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>Read — Чтение файлов</h2>
+            <p>Claude использует Read для анализа содержимого файлов, поиска кода и понимания структуры проекта.</p>
+
+            <pre><code>> Read файл.txt
+> Read src/components/Button.jsx</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <div class="alert alert-info">
+                <strong>Важно:</strong> Всегда используй Read tool вместо <code>cat</code>, <code>head</code> или <code>tail</code> bash команд для лучшей читаемости и контроля.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Write — Создание файлов</h2>
+            <p>Создает новые файлы или полностью перезаписывает существующие.</p>
+
+            <pre><code>> Create a new file with these contents...
+> Write this code to src/index.js</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <div class="alert alert-warning">
+                <strong>Best practice:</strong> Всегда проверяй что Claude хочет написать перед одобрением операции Write.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Edit — Модификация файлов</h2>
+            <p>Изменяет существующий код без полной перезаписи. Сохраняет остальной код нетронутым.</p>
+
+            <pre><code>> Edit src/App.tsx to add these features...</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <h3>Преимущества Edit vs Write:</h3>
+            <ul class="check-list">
+                <li>Edit сохраняет остальной код</li>
+                <li>Edit работает с большими файлами</li>
+                <li>Edit показывает exact changes</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Glob — Поиск файлов</h2>
+            <p>Поиск файлов по glob паттернам.</p>
+
+            <pre><code>> Find all TypeScript files
+> Search for files matching **/*.test.ts</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <h3>Синтаксис паттернов:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Паттерн</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>*.js</code></td>
+                        <td>Все JS файлы в текущей директории</td>
+                    </tr>
+                    <tr>
+                        <td><code>**/*.ts</code></td>
+                        <td>Все TS файлы рекурсивно</td>
+                    </tr>
+                    <tr>
+                        <td><code>src/**/*.tsx</code></td>
+                        <td>Все TSX файлы в src</td>
+                    </tr>
+                    <tr>
+                        <td><code>*.{ts,tsx}</code></td>
+                        <td>Несколько расширений</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section">
+            <h2>Grep — Поиск текста</h2>
+            <p>Поиск содержимого в файлах с поддержкой regex.</p>
+
+            <pre><code>> Find all occurrences of "TODO" comments
+> Search for functions using deprecated API
+> Find imports of lodash</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <h3>Примеры использования:</h3>
+            <pre><code>grep "pattern" file.txt
+grep -i "case-insensitive"
+grep -B2 -A2 "pattern"  # Context before/after
+rg "regex_pattern"      # Regex support</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>Bash — Выполнение команд</h2>
+            <p>Выполнение системных команд и terminal операций.</p>
+
+            <pre><code>> Run npm test
+> Execute git log --oneline
+> Check the build output</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <h3>Встроенная поддержка:</h3>
+            <ul>
+                <li>Git команды (<code>git diff</code>, <code>git log</code>, <code>git commit</code>)</li>
+                <li>Package managers (<code>npm</code>, <code>pip</code>, <code>yarn</code>)</li>
+                <li>Системные команды (<code>ls</code>, <code>grep</code>, <code>find</code>)</li>
+            </ul>
+
+            <div class="alert alert-warning">
+                <strong>Важно:</strong> Используй Bash ТОЛЬКО для terminal операций. Для работы с файлами используй специализированные tools (Read, Write, Edit, Grep, Glob).
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Управление доступом к инструментам</h2>
+            <p>Контролируй какие tools может использовать Claude через permissions:</p>
+
+            <pre><code>{
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Read(src/**)"
+    ],
+    "deny": [
+      "Bash(rm *)",
+      "Write(*.config.json)"
+    ]
+  }
+}</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <h3>Wildcards:</h3>
+            <ul>
+                <li><code>*</code> - match anything</li>
+                <li><code>**</code> - recursive match</li>
+                <li><code>Bash(*)</code> - все bash команды</li>
+                <li><code>Read(src/**)</code> - любые файлы в src</li>
+            </ul>
+        </section>
+
+        <section class="docs-link">
+            <h3>📚 Официальная документация</h3>
+            <a href="https://code.claude.com/docs/en/tools.md" target="_blank" class="doc-button">
+                Tools Reference →
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-nav">
+                <a href="subagents.html">← Субагенты</a>
+                <a href="git.html">Git →</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

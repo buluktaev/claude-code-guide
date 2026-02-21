@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git — Claude Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="breadcrumb">
+        <div class="container">
+            <a href="index.html" class="back-link">← Главная</a>
+            <span class="current">Git</span>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <span class="page-icon">🔀</span>
+            <h1>Работа с Git</h1>
+            <p class="page-subtitle">Автоматизация git workflows: коммиты, PR, branch management</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>Создание коммитов</h2>
+
+            <h3>Базовый коммит</h3>
+            <pre><code>> Create a commit with these changes
+
+# Claude автоматически:
+# 1. Выполнит git status
+# 2. Покажет git diff
+# 3. Создаст commit message
+# 4. Выполнит git add и commit</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <h3>Коммит с сообщением</h3>
+            <pre><code>> Commit with message "Fix: handle null values in auth"</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <div class="alert alert-warning">
+                <strong>Best practices:</strong>
+                <ul>
+                    <li>Пусть Claude пишет commit messages</li>
+                    <li>Проверяй что будет закоммичено перед одобрением</li>
+                    <li>Используй conventional commits (<code>feat:</code>, <code>fix:</code>, <code>refactor:</code>)</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Pull Requests</h2>
+
+            <h3>Создание PR</h3>
+            <pre><code># Прямой запрос
+> Create a PR for these changes
+
+# Пошагово
+> Summarize the changes
+> Create a pull request
+> Improve PR description with details</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <h3>PR Linking</h3>
+            <p>Когда создаешь PR через <code>gh pr create</code>, сессия автоматически линкуется:</p>
+            <pre><code># Возобнови по номеру PR
+claude --from-pr 123</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <div class="highlight-box">
+                <h3>Лучшие практики PR:</h3>
+                <ul class="check-list">
+                    <li>Проверь PR описание перед отправкой</li>
+                    <li>Проверь "Potential risks" перед merge</li>
+                    <li>Думай о code review от других</li>
+                    <li>Следуй conventions вашего проекта</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Branch management с worktrees</h2>
+            <p>Параллельные сессии для разных features:</p>
+
+            <pre><code># Создай worktree для feature
+git worktree add ../project-feature -b feature-a
+cd ../project-feature
+claude  # Независимая сессия
+
+# Создай worktree для bugfix
+git worktree add ../project-bugfix -b bugfix-123
+cd ../project-bugfix
+claude  # Независимая сессия
+
+# Список всех worktrees
+git worktree list
+
+# Удали worktree когда готов
+git worktree remove ../project-feature</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <h3>Преимущества worktrees:</h3>
+            <ul class="check-list">
+                <li>Полная изоляция файлов между сессиями</li>
+                <li>Разные branches одновременно</li>
+                <li>Каждая сессия имеет свой контекст</li>
+                <li>Shared git history</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Просмотр изменений</h2>
+            <pre><code># Claude может показать diff
+> Show me the changes I made to auth.js
+> Compare current version with main branch
+> What's different between these two files?
+
+# Claude использует: git diff, git status</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="docs-link">
+            <h3>📚 Официальная документация</h3>
+            <a href="https://code.claude.com/docs/en/git.md" target="_blank" class="doc-button">
+                Git Guide →
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-nav">
+                <a href="tools.html">← Инструменты</a>
+                <a href="mcp.html">MCP Серверы →</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

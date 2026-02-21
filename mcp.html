@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Серверы — Claude Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="breadcrumb">
+        <div class="container">
+            <a href="index.html" class="back-link">← Главная</a>
+            <span class="current">MCP Серверы</span>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <span class="page-icon">🔌</span>
+            <h1>MCP Серверы</h1>
+            <p class="page-subtitle">Model Context Protocol — интеграция с внешними API и данными</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>Что такое MCP?</h2>
+            <p>Model Context Protocol (MCP) — это открытый стандарт для интеграции AI с внешними инструментами и данными.</p>
+
+            <div class="highlight-box">
+                <h3>MCP серверы дают Claude доступ к:</h3>
+                <ul class="check-list">
+                    <li>Сторонним API (GitHub, Slack, Sentry)</li>
+                    <li>Базам данных (PostgreSQL, MongoDB)</li>
+                    <li>Бизнес-системам (Jira, Notion)</li>
+                    <li>Внутренним инструментам</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Установка MCP серверов</h2>
+
+            <h3>HTTP серверы (рекомендуется)</h3>
+            <pre><code>claude mcp add --transport http github \
+  https://api.githubcopilot.com/mcp/
+
+claude mcp add --transport http sentry \
+  https://mcp.sentry.dev/mcp
+
+claude mcp add --transport http notion \
+  https://mcp.notion.com/mcp</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <h3>Локальные stdio серверы</h3>
+            <pre><code>claude mcp add --transport stdio airtable \
+  --env AIRTABLE_API_KEY=YOUR_KEY \
+  -- npx -y airtable-mcp-server
+
+claude mcp add --transport stdio db \
+  -- npx -y @bytebase/dbhub \
+  --dsn "postgresql://user:pass@host/db"</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <div class="alert alert-warning">
+                <strong>Важно:</strong> Опции должны идти ДО имени сервера!
+                <ul>
+                    <li>✅ <code>claude mcp add --transport stdio myserver -- npx server</code></li>
+                    <li>❌ <code>claude mcp add myserver --transport stdio -- npx server</code></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Управление серверами</h2>
+            <pre><code># Список всех серверов
+claude mcp list
+
+# Информация о сервере
+claude mcp get github
+
+# Удалить сервер
+claude mcp remove github
+
+# В Claude Code
+> /mcp  # Статус и аутентификация</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>Scopes (Области действия)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Scope</th>
+                        <th>Хранилище</th>
+                        <th>Доступность</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>local</strong> (default)</td>
+                        <td><code>~/.claude.json</code></td>
+                        <td>Только этот проект</td>
+                    </tr>
+                    <tr>
+                        <td><strong>project</strong></td>
+                        <td><code>.mcp.json</code></td>
+                        <td>Вся команда (git)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>user</strong></td>
+                        <td><code>~/.claude.json</code></td>
+                        <td>Все проекты</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <pre><code># Project-scoped (для команды)
+claude mcp add --scope project --transport http github \
+  https://api.githubcopilot.com/mcp/
+
+# User-scoped (для тебя)
+claude mcp add --scope user --transport http stripe \
+  https://mcp.stripe.com</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>Примеры использования</h2>
+
+            <div class="highlight-box">
+                <h3>GitHub</h3>
+                <pre><code>> Review PR #456 and suggest improvements
+> Create a new issue for the bug
+> Show me all open PRs assigned to me</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Sentry (мониторинг ошибок)</h3>
+                <pre><code>> What are the most common errors today?
+> Show stack trace for error ID abc123
+> Which deployment introduced these errors?</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Database queries</h3>
+                <pre><code>> What's our total revenue this month?
+> Show schema for orders table
+> Find customers inactive for 90 days</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+            </div>
+        </section>
+
+        <section class="docs-link">
+            <h3>📚 Официальная документация</h3>
+            <a href="https://code.claude.com/docs/en/mcp.md" target="_blank" class="doc-button">
+                MCP Documentation →
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-nav">
+                <a href="git.html">← Git</a>
+                <a href="teams.html">Agent Teams →</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

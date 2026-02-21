@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tmux — Claude Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="breadcrumb">
+        <div class="container">
+            <a href="index.html" class="back-link">← Главная</a>
+            <span class="current">tmux</span>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <span class="page-icon">🖥️</span>
+            <h1>tmux интеграция</h1>
+            <p class="page-subtitle">Используйте tmux для параллельной работы с несколькими Claude сессиями</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>Что такое tmux?</h2>
+            <p>
+                <strong>tmux</strong> (terminal multiplexer) — инструмент для управления несколькими терминальными сессиями внутри одного окна.
+                В контексте Claude Code это позволяет:
+            </p>
+            <ul>
+                <li>Запускать несколько Claude сессий параллельно</li>
+                <li>Переключаться между задачами без потери контекста</li>
+                <li>Сохранять сессии при отключении SSH</li>
+                <li>Организовать workspace для сложных проектов</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Основные команды tmux</h2>
+
+            <h3>Управление сессиями</h3>
+            <pre><code># Создать новую сессию
+tmux new -s claude-main
+
+# Список сессий
+tmux ls
+
+# Подключиться к сессии
+tmux attach -t claude-main
+
+# Отключиться (detach) — Ctrl+b, затем d
+# Сессия продолжит работать в фоне
+
+# Убить сессию
+tmux kill-session -t claude-main</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <h3>Работа с окнами (windows)</h3>
+            <pre><code># Создать новое окно
+Ctrl+b c
+
+# Переключение между окнами
+Ctrl+b n    # следующее окно
+Ctrl+b p    # предыдущее окно
+Ctrl+b 0-9  # окно по номеру
+
+# Переименовать окно
+Ctrl+b ,
+
+# Закрыть окно
+Ctrl+b &</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <h3>Работа с панелями (panes)</h3>
+            <pre><code># Разделить вертикально
+Ctrl+b %
+
+# Разделить горизонтально
+Ctrl+b "
+
+# Переключение между панелями
+Ctrl+b o        # следующая панель
+Ctrl+b ←↑→↓    # стрелками
+
+# Закрыть панель
+Ctrl+b x
+
+# Увеличить панель на весь экран
+Ctrl+b z    # повторное нажатие вернёт обратно</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>Use cases для Claude Code</h2>
+
+            <div class="highlight-box">
+                <h3>🎯 Use Case 1: Параллельная работа над фичами</h3>
+                <pre><code># Окно 1: Основная фича
+claude --model sonnet
+
+# Окно 2: Рефакторинг
+claude --model haiku
+
+# Окно 3: Тестирование
+npm test --watch</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+            </div>
+
+            <div class="highlight-box">
+                <h3>🤖 Use Case 2: Agent Teams workflow</h3>
+                <pre><code># Панель 1: Team leader
+claude teams create my-team
+
+# Панель 2: Agent 1
+claude teams join my-team --name agent-1
+
+# Панель 3: Agent 2
+claude teams join my-team --name agent-2
+
+# Панель 4: Monitoring
+watch -n 1 "claude teams status my-team"</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+            </div>
+
+            <div class="highlight-box">
+                <h3>🔍 Use Case 3: Multi-repo работа</h3>
+                <pre><code># Окно 1: Frontend
+cd ~/projects/frontend && claude
+
+# Окно 2: Backend
+cd ~/projects/backend && claude
+
+# Окно 3: Shared lib
+cd ~/projects/shared && claude</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Конфигурация tmux для Claude</h2>
+
+            <p>Создайте файл <code>~/.tmux.conf</code> с оптимальными настройками:</p>
+
+            <pre><code># Изменить prefix на Ctrl+a (удобнее чем Ctrl+b)
+unbind C-b
+set-option -g prefix C-a
+bind-key C-a send-prefix
+
+# Включить mouse support
+set -g mouse on
+
+# Увеличить history limit
+set-option -g history-limit 50000
+
+# Нумерация окон с 1 (вместо 0)
+set -g base-index 1
+setw -g pane-base-index 1
+
+# Автоматическая перенумерация окон
+set -g renumber-windows on
+
+# Быстрое переключение панелей
+bind -n M-Left select-pane -L
+bind -n M-Right select-pane -R
+bind -n M-Up select-pane -U
+bind -n M-Down select-pane -D
+
+# Разделение панелей с сохранением текущего пути
+bind '"' split-window -c "#{pane_current_path}"
+bind % split-window -h -c "#{pane_current_path}"
+bind c new-window -c "#{pane_current_path}"
+
+# Цветовая схема (для лучшей читаемости)
+set -g default-terminal "screen-256color"
+
+# Статус-бар
+set -g status-style 'bg=#1e1e2e fg=#cdd6f4'
+set -g status-left '#[fg=#89b4fa,bold]  Claude #S '
+set -g status-right '#[fg=#f38ba8]%H:%M #[fg=#a6e3a1]%d-%b'</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <p>Применить конфигурацию:</p>
+            <pre><code># Перезагрузить конфиг без перезапуска tmux
+tmux source-file ~/.tmux.conf</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>Готовые tmux скрипты</h2>
+
+            <h3>Быстрый старт Claude workspace</h3>
+            <pre><code>#!/bin/bash
+# Сохраните как ~/bin/claude-workspace.sh
+
+SESSION="claude-dev"
+
+# Проверка существует ли сессия
+tmux has-session -t $SESSION 2>/dev/null
+
+if [ $? != 0 ]; then
+  # Создать сессию
+  tmux new-session -d -s $SESSION -n main
+
+  # Окно 1: Main Claude
+  tmux send-keys -t $SESSION:main "claude --model sonnet" C-m
+
+  # Окно 2: Research
+  tmux new-window -t $SESSION -n research
+  tmux send-keys -t $SESSION:research "claude --model haiku" C-m
+
+  # Окно 3: Testing
+  tmux new-window -t $SESSION -n tests
+  tmux send-keys -t $SESSION:tests "# Ready for tests" C-m
+
+  # Вернуться на первое окно
+  tmux select-window -t $SESSION:main
+fi
+
+# Подключиться к сессии
+tmux attach -t $SESSION</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+
+            <p>Использование:</p>
+            <pre><code>chmod +x ~/bin/claude-workspace.sh
+claude-workspace.sh</code><button class="copy-btn" onclick="copyCode(this)"></button></pre>
+        </section>
+
+        <section class="content-section">
+            <h2>Best Practices</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Практика</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Именование сессий</strong></td>
+                        <td>Используйте осмысленные имена: <code>claude-frontend</code>, <code>claude-api</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Одна задача = одна сессия</strong></td>
+                        <td>Не смешивайте разные проекты в одной tmux сессии</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Регулярный detach</strong></td>
+                        <td>Используйте <code>Ctrl+b d</code> вместо закрытия терминала</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mouse mode</strong></td>
+                        <td>Включите mouse для удобного скроллинга и выделения</td>
+                    </tr>
+                    <tr>
+                        <td><strong>History limit</strong></td>
+                        <td>Увеличьте до 50000+ для сохранения длинных выводов Claude</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section">
+            <h2>Антипаттерны</h2>
+
+            <div class="antipattern-item">
+                <span class="antipattern-icon">❌</span>
+                <div>
+                    <strong>Не используйте вложенные tmux</strong>
+                    <p>Избегайте запуска tmux внутри tmux — это создаёт конфликты с hotkeys</p>
+                </div>
+            </div>
+
+            <div class="antipattern-item">
+                <span class="antipattern-icon">❌</span>
+                <div>
+                    <strong>Не держите сотни окон</strong>
+                    <p>Больше 10 окон в одной сессии — признак что нужно создать новую сессию</p>
+                </div>
+            </div>
+
+            <div class="antipattern-item">
+                <span class="antipattern-icon">❌</span>
+                <div>
+                    <strong>Не игнорируйте tmux при remote работе</strong>
+                    <p>При SSH всегда используйте tmux для защиты от потери соединения</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Полезные ресурсы</h2>
+            <ul>
+                <li><a href="https://github.com/tmux/tmux/wiki" target="_blank">Официальная Wiki tmux</a></li>
+                <li><a href="https://tmuxcheatsheet.com/" target="_blank">tmux Cheat Sheet</a></li>
+                <li><a href="https://github.com/gpakosz/.tmux" target="_blank">Oh My Tmux! — улучшенная конфигурация</a></li>
+                <li><a href="https://github.com/tmux-plugins/tpm" target="_blank">Tmux Plugin Manager</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="page-footer">
+        <div class="container">
+            <div class="footer-nav">
+                <a href="commands.html" class="footer-link prev">← Команды</a>
+                <a href="index.html" class="footer-link home">🏠 Главная</a>
+                <a href="statusline.html" class="footer-link next">Status Line →</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
